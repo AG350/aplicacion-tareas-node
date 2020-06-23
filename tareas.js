@@ -15,16 +15,41 @@ function escribirArchivoJSON(tareas) {
 }
 
 module.exports = { 
-    listarPorEstado(estado) {
+    modificarEstado(indice,nuevoEstado) {
+        let tareas = leerArchivoJSON();
+        console.log(indice,nuevoEstado);
+        
+        if ((indice >= 0 && indice < tareas.length) && (nuevoEstado == "p" || nuevoEstado == "f")) {
+            switch (nuevoEstado) {
+                case 'p':
+                    tareas[indice].estado = 'en progreso';
+                    break;
+                case 'f':
+                    tareas[indice].estado = 'finalizada';
+                    break;
+                default:
+                    break;
+            }
+                        
+            escribirArchivoJSON(tareas);
+            
+            console.log('¡se cambio el estado de la tarea '+ tareas[indice].titulo+ ' !')
+    
+        } else {
+            console.log('Verifica el indice ingresado, o el estado (p = en progreso, f=finalizada)');
+        }
+    }
+    ,listarPorEstado(estado) {
         let tareasFiltradas = leerArchivoJSON().filter(elem => elem.estado == estado);
         tareasFiltradas.forEach(tarea => {
-            console.log(tarea.titulo, '(' +  tarea.estado + ')');
+            console.log(tarea.indice + '-' + tarea.titulo, '(' +  tarea.estado + ')');
         });
-    },listar() {
+    },
+    listar() {
         let tareas = leerArchivoJSON();
         
         tareas.forEach(tarea => {
-            console.log(tarea.titulo + ' '+ tarea.descripcion + ' (' +  tarea.estado + ')');
+            console.log(tarea.indice + '-' +tarea.titulo + ' '+ tarea.descripcion + ' (' +  tarea.estado + ') ' + tarea.fecha);
         });
     },
     crear(titulo = '', descripcion = '', estado = 'pendiente') {
