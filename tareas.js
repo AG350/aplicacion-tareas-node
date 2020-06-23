@@ -32,11 +32,18 @@ module.exports = {
         if (titulo.length > 5) {
     
             let tareas = leerArchivoJSON();
+            let date = new Date();
+            let day = date.getDate();
+            let month = date.getMonth() + 1;
+            let year = date.getFullYear();
+            let siguiente = tareas.length + 1;
     
             let tareaNueva = {
+                indice : siguiente,
                 titulo: titulo,
                 descripcion: descripcion,
-                estado: estado
+                estado: estado,
+                fecha: day+'/'+month+'/'+year
             }
             
             tareas.push(tareaNueva);
